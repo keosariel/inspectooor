@@ -1,5 +1,5 @@
 /**
- * Inspectooor v1.0.0
+ * Inspectooor v0.0.1
  * Tested so far on Chrome, Firefox, and Safari
  * Kenneth Gabriel <gabriel@ally.wtf>
  */
