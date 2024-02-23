@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Inspectooor",
+  "description": "Inspectooor is a simple extension that allows you to inspect the DOM of any page.",
+  "version": "0.0.1",
+  "author": "Kenneth Gabriel <gabriel@ally.wtf>",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["script/jquery-3.6.0.js", "inspectooor.js"],
+      "css": ["style/tailwind.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
