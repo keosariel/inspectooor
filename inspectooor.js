@@ -17,10 +17,10 @@ function generateSelectorHTML() {
   let selector = document.createElement("div");
   selector.id = "selector";
   selector.innerHTML = `
-    <div id="selector-top" class="fixed bg-[#ff69ff] h-[2px]"></div>
-    <div id="selector-left" class="fixed bg-[#ff69ff] w-[2px]"></div>
-    <div id="selector-right" class="fixed bg-[#ff69ff] w-[2px]"></div>
-    <div id="selector-bottom" class="fixed bg-[#ff69ff] h-[2px]"></div>
+    <div id="selector-top"></div>
+    <div id="selector-left"></div>
+    <div id="selector-right"></div>
+    <div id="selector-bottom"></div>
     `;
   return selector;
 }
@@ -28,33 +28,16 @@ function generateSelectorHTML() {
 function generateMainMenuHTML() {
   let container = document.createElement("div");
   container.id = "mainmenu";
-  container.classList.add(
-    "absolute",
-    "z-[1000000000000000]",
-    "hidden",
-    "rounded",
-    "border",
-    "bg-white/30",
-    "dark:bg-slate-800/70",
-    "dark:border-slate-700",
-    "backdrop-blur-xl",
-    "shadow-lg",
-    "p-4",
-    "grid",
-    "gap-6",
-    "grid-cols-1",
-    "w-[500px]",
-  );
+  container.classList.add("in_main_container");
 
   let htmlTree = document.createElement("div");
-  let htClass =
-    "bg-gray-50/30 dark:bg-slate-800/70 dark:border-slate-700 max-h-[300px] overflow-x-auto rounded border p-2 !font-mono !text-xs backdrop-blur-xl";
+  let htClass = "in_html_tree";
 
   htmlTree.id = "htmlTree";
   htmlTree.classList.add(...htClass.split(" "));
 
   let htmlProps = document.createElement("div");
-  let hpClass = "max-h-[300px] !font-mono overflow-y-auto";
+  let hpClass = "in_html_properties";
 
   htmlProps.id = "htmlProps";
   htmlProps.classList.add(...hpClass.split(" "));
@@ -129,29 +112,9 @@ function loadProperties(target) {
     let propName = document.createElement("div");
     let propValue = document.createElement("textarea");
 
-    container.classList.add("mb-2", "grid", "grid-cols-8", "gap-2");
-    propName.classList.add(
-      "text-blue-700",
-      "text-xs",
-      "col-span-2",
-      "dark:text-blue-300",
-    );
-    propValue.classList.add(
-      "autoresize",
-      "col-span-6",
-      "resize-none",
-      "rounded",
-      "border",
-      "bg-gray-200/30",
-      "p-2",
-      "text-xs",
-      "outline-none",
-      "backdrop-blur-md",
-      "text-green-700",
-      "dark:bg-slate-800/70",
-      "dark:border-slate-700",
-      "dark:text-green-300",
-    );
+    container.classList.add("in_properties_container");
+    propName.classList.add("in_element_prop_name");
+    propValue.classList.add("in_element_prop_value");
     propValue.style.height = "30px";
     propValue.style.resize = "none";
     propValue.style.overflow = "hidden";
@@ -240,7 +203,7 @@ function generateId() {
 function getAttributes(target) {
   let attributes = "";
   for (let i = 0; i < target[0].attributes.length; i++) {
-    attributes += `<span class="text-blue-700 dark:text-blue-300">${target[0].attributes[i].name + "="}</span><span class="text-green-700 dark:text-green-300">"${target[0].attributes[i].value}"</span> `;
+    attributes += `<span class="in_element_attribute">${target[0].attributes[i].name + "="}</span><span class="in_element_attribute_value">"${target[0].attributes[i].value}"</span> `;
   }
   return attributes;
 }
@@ -267,7 +230,8 @@ function createTree(target, n) {
   let oldGeneratedId = target.attr("data-cid");
 
   let targetTagName = target[0].tagName.toLowerCase();
-  let attributes = getAttributes(target);
+  let attributes = getAttributes(target).trim();
+  attributes = attributes ? " " + attributes : "";
 
   let children = target.children();
   let childrenHTML = document.createElement("ul");
@@ -279,20 +243,9 @@ function createTree(target, n) {
   let summary = document.createElement("summary");
   let textContent = getElementTextContent(target[0]);
 
-  summary.classList.add(
-    "hover:bg-gray-200/30",
-    "hover:backdrop-blur-md",
-    "hover:border-gray-500",
-    "hover:dark:bg-slate-800/70",
-    "hover:dark:border-slate-700",
-    "dark:text-white",
-    "p-1",
-    "cursor-pointer",
-    "rounded-md",
-    "border-transparent",
-  );
+  summary.classList.add("in_element_summary");
 
-  summary.innerHTML = `&lt;<span class="text-red-700 dark:text-red-300">${targetTagName}</span> ${attributes.trim()}&gt;<br/>${textContent}`;
+  summary.innerHTML = `&lt;<span class="in_element_tag">${targetTagName}</span>${attributes}&gt;<br/>${textContent}`;
 
   if (oldGeneratedId) {
     summary.setAttribute("data-target", oldGeneratedId);
@@ -326,8 +279,8 @@ function createTree(target, n) {
 
   details.appendChild(summary);
   let endTag = document.createElement("li");
-  endTag.classList.add("dark:text-white");
-  endTag.innerHTML = `&lt;/<span class="text-red-700 dark:text-red-300">${targetTagName}</span>&gt;`;
+  endTag.classList.add("in_element_end_tag");
+  endTag.innerHTML = `&lt;/<span class="in_element_tag">${targetTagName}</span>&gt;`;
 
   childrenHTML.appendChild(endTag);
   details.appendChild(childrenHTML);
@@ -360,7 +313,7 @@ function main() {
     if (
       !mainmenu.contains(e.target) &&
       e.target.tagName !== "HTML" &&
-      mainmenu.hasClass("hidden")
+      mainmenu.css("display") === "none"
     ) {
       let position = generateMenuPosition(e, mainmenu);
       let generatedId = generateId();
@@ -368,7 +321,7 @@ function main() {
 
       mainmenu.css("top", `${position.y + 30}px`);
       mainmenu.css("left", `${position.x}px`);
-      mainmenu.removeClass("hidden");
+      mainmenu.css("display", "grid");
 
       loadProperties($(e.target));
       if (oldGeneratedId) {
@@ -381,7 +334,7 @@ function main() {
       htmlTree.empty();
       htmlTree.append(createTree($(e.target), 20));
     } else if (!mainmenu.contains(e.target) && !mainmenu.hasClass("hidden")) {
-      mainmenu.addClass("hidden");
+      mainmenu.css("display", "none");
     }
   });
 }
