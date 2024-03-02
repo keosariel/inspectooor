@@ -104,6 +104,7 @@
 @media (prefers-color-scheme: dark) {
     .in_main_container {
         background-color: rgba(15, 23, 42, 0.8);
+        border: 1px solid #4b5563;
     }
 
     .in_html_tree {
