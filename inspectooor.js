@@ -35,6 +35,8 @@ function generateMainMenuHTML() {
     "rounded",
     "border",
     "bg-white/30",
+    "dark:bg-slate-800/70",
+    "dark:border-slate-700",
     "backdrop-blur-xl",
     "shadow-lg",
     "p-4",
@@ -46,7 +48,7 @@ function generateMainMenuHTML() {
 
   let htmlTree = document.createElement("div");
   let htClass =
-    "bg-gray-50/30 max-h-[300px] overflow-x-auto rounded border p-2 !font-mono !text-xs backdrop-blur-xl";
+    "bg-gray-50/30 dark:bg-slate-800/70 dark:border-slate-700 max-h-[300px] overflow-x-auto rounded border p-2 !font-mono !text-xs backdrop-blur-xl";
 
   htmlTree.id = "htmlTree";
   htmlTree.classList.add(...htClass.split(" "));
@@ -128,7 +130,12 @@ function loadProperties(target) {
     let propValue = document.createElement("textarea");
 
     container.classList.add("mb-2", "grid", "grid-cols-8", "gap-2");
-    propName.classList.add("text-blue-700", "text-xs", "col-span-2");
+    propName.classList.add(
+      "text-blue-700",
+      "text-xs",
+      "col-span-2",
+      "dark:text-blue-300",
+    );
     propValue.classList.add(
       "autoresize",
       "col-span-6",
@@ -141,6 +148,9 @@ function loadProperties(target) {
       "outline-none",
       "backdrop-blur-md",
       "text-green-700",
+      "dark:bg-slate-800/70",
+      "dark:border-slate-700",
+      "dark:text-green-300",
     );
     propValue.style.height = "30px";
     propValue.style.resize = "none";
@@ -230,7 +240,7 @@ function generateId() {
 function getAttributes(target) {
   let attributes = "";
   for (let i = 0; i < target[0].attributes.length; i++) {
-    attributes += `<span class="text-blue-700">${target[0].attributes[i].name + "="}</span><span class="text-green-700">"${target[0].attributes[i].value}"</span> `;
+    attributes += `<span class="text-blue-700 dark:text-blue-300">${target[0].attributes[i].name + "="}</span><span class="text-green-700 dark:text-green-300">"${target[0].attributes[i].value}"</span> `;
   }
   return attributes;
 }
@@ -273,13 +283,16 @@ function createTree(target, n) {
     "hover:bg-gray-200/30",
     "hover:backdrop-blur-md",
     "hover:border-gray-500",
+    "hover:dark:bg-slate-800/70",
+    "hover:dark:border-slate-700",
+    "dark:text-white",
     "p-1",
     "cursor-pointer",
     "rounded-md",
     "border-transparent",
   );
 
-  summary.innerHTML = `&lt;<span class="text-red-700">${targetTagName}</span> ${attributes.trim()}&gt;<br/>${textContent}`;
+  summary.innerHTML = `&lt;<span class="text-red-700 dark:text-red-300">${targetTagName}</span> ${attributes.trim()}&gt;<br/>${textContent}`;
 
   if (oldGeneratedId) {
     summary.setAttribute("data-target", oldGeneratedId);
@@ -313,7 +326,8 @@ function createTree(target, n) {
 
   details.appendChild(summary);
   let endTag = document.createElement("li");
-  endTag.innerHTML = `&lt;/<span class="text-red-700">${targetTagName}</span>&gt;`;
+  endTag.classList.add("dark:text-white");
+  endTag.innerHTML = `&lt;/<span class="text-red-700 dark:text-red-300">${targetTagName}</span>&gt;`;
 
   childrenHTML.appendChild(endTag);
   details.appendChild(childrenHTML);
