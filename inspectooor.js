@@ -308,15 +308,22 @@ function main() {
   body.prepend(generateSelectorHTML());
   body.prepend(generateToolbarHTML());
 
+  const mainmenu = $("#mainmenu");
+  const htmlProps = $("#htmlProps");
+  const htmlTree = $("#htmlTree");
+
+  body.on("mousemove", function (e) {
+    let shouldInspect = body.attr("data-inspect") === "true";
+    if (shouldInspect && mainmenu.css("display") === "none") {
+      outlineElement($(e.target));
+    }
+  });
+
   const inspectToggle = $("#inspect");
   inspectToggle.on("click", function () {
     let shouldInspect = body.attr("data-inspect") === "true";
     body.attr("data-inspect", !shouldInspect);
   });
-
-  const mainmenu = $("#mainmenu");
-  const htmlProps = $("#htmlProps");
-  const htmlTree = $("#htmlTree");
 
   // Disable autocomplete for all input fields
   const inputs = $("input");
