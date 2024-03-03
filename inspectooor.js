@@ -170,6 +170,10 @@ function outlineElement(target) {
     return;
   }
 
+  if ($("#selector")[0].contains(target[0])) {
+    return;
+  }
+
   $("#selector").css("display", "block");
 
   var elements = {
@@ -313,6 +317,7 @@ function main() {
   const mainmenu = $("#mainmenu");
   const htmlProps = $("#htmlProps");
   const htmlTree = $("#htmlTree");
+  const allElements = $("*");
 
   body.on("mousemove", function (e) {
     let shouldInspect = body.attr("data-inspect") === "true";
@@ -343,19 +348,23 @@ function main() {
     return this[0].contains(target);
   };
 
+  inspectToggle.contains = function (target) {
+    return this[0].contains(target);
+  };
+
   html.addClass("relative");
-  html.on("click", function (e) {
+  allElements.on("click", function (e) {
     let shouldInspect = body.attr("data-inspect") === "true";
 
-    if (!shouldInspect) {
+    if (
+      !shouldInspect ||
+      mainmenu.contains(e.target) ||
+      inspectToggle.contains(e.target)
+    ) {
       return;
     }
 
-    if (
-      !mainmenu.contains(e.target) &&
-      e.target.tagName !== "HTML" &&
-      mainmenu.css("display") === "none"
-    ) {
+    if (e.target.tagName !== "HTML" && mainmenu.css("display") === "none") {
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
@@ -378,7 +387,10 @@ function main() {
 
       htmlTree.empty();
       htmlTree.append(createTree($(e.target), 20));
-    } else if (!mainmenu.contains(e.target) && !mainmenu.hasClass("hidden")) {
+    } else if (!(mainmenu.css("display") === "none")) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
       mainmenu.css("display", "none");
     }
   });
