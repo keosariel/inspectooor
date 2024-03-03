@@ -308,6 +308,12 @@ function main() {
   body.prepend(generateSelectorHTML());
   body.prepend(generateToolbarHTML());
 
+  const inspectToggle = $("#inspect");
+  inspectToggle.on("click", function () {
+    let shouldInspect = body.attr("data-inspect") === "true";
+    body.attr("data-inspect", !shouldInspect);
+  });
+
   const mainmenu = $("#mainmenu");
   const htmlProps = $("#htmlProps");
   const htmlTree = $("#htmlTree");
