@@ -110,7 +110,7 @@ body[data-inspect="true"].in_properties_container * {
     background-color: #ff69ff;
     height: 2px;
     position: fixed;
-    transition: all 300ms ease;
+    transition: all 100ms ease;
     z-index: 1000000000000000;
 }
 
@@ -119,7 +119,7 @@ body[data-inspect="true"].in_properties_container * {
     background-color: #ff69ff;
     width: 2px;
     position: fixed;
-    transition: all 300ms ease;
+    transition: all 100ms ease;
     z-index: 1000000000000000;
 }
 
