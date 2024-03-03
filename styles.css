@@ -111,6 +111,7 @@ body[data-inspect="true"].in_properties_container * {
     height: 2px;
     position: fixed;
     transition: all 300ms ease;
+    z-index: 1000000000000000;
 }
 
 #selector > div:nth-child(2),
@@ -119,6 +120,7 @@ body[data-inspect="true"].in_properties_container * {
     width: 2px;
     position: fixed;
     transition: all 300ms ease;
+    z-index: 1000000000000000;
 }
 
 #toolbar {
