@@ -320,15 +320,17 @@ function main() {
       outlineElement($(e.target));
     }
   });
-  // on scroll remove the mainmenu & selector
 
   window.addEventListener("scroll", function () {
     mainmenu.css("display", "none");
     $("#selector").css("display", "none");
   });
 
-  const inspectToggle = $("#inspect");
-  inspectToggle.on("click", function () {
+  const inspectToggle = $("#toolbar");
+  inspectToggle.on("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
     let shouldInspect = body.attr("data-inspect") === "true";
     body.attr("data-inspect", !shouldInspect);
   });
