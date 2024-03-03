@@ -80,8 +80,8 @@ function generateMenuPosition(event, contextMenu) {
   var menuPostion = {};
   var menuDimension = {};
 
-  menuDimension.x = contextMenu.outerWidth();
-  menuDimension.y = contextMenu.outerHeight();
+  menuDimension.x = contextMenu.outerWidth() + 30;
+  menuDimension.y = contextMenu.outerHeight() + 50;
   mousePosition.x = event.pageX;
   mousePosition.y = event.pageY;
 
@@ -369,13 +369,8 @@ function main() {
       e.stopPropagation();
       e.stopImmediatePropagation();
 
-      let position = generateMenuPosition(e, mainmenu);
       let generatedId = generateId();
       let oldGeneratedId = e.target.getAttribute("data-cid");
-
-      mainmenu.css("top", `${position.y + 30}px`);
-      mainmenu.css("left", `${position.x}px`);
-      mainmenu.css("display", "grid");
 
       loadProperties($(e.target));
       if (oldGeneratedId) {
@@ -387,6 +382,10 @@ function main() {
 
       htmlTree.empty();
       htmlTree.append(createTree($(e.target), 20));
+      let position = generateMenuPosition(e, mainmenu);
+      mainmenu.css("top", `${position.y + 30}px`);
+      mainmenu.css("left", `${position.x}px`);
+      mainmenu.css("display", "grid");
     } else if (!(mainmenu.css("display") === "none")) {
       e.preventDefault();
       e.stopPropagation();
