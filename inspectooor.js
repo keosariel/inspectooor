@@ -170,6 +170,8 @@ function outlineElement(target) {
     return;
   }
 
+  $("#selector").css("display", "block");
+
   var elements = {
     top: $("#selector-top"),
     left: $("#selector-left"),
@@ -317,6 +319,12 @@ function main() {
     if (shouldInspect && mainmenu.css("display") === "none") {
       outlineElement($(e.target));
     }
+  });
+  // on scroll remove the mainmenu & selector
+
+  window.addEventListener("scroll", function () {
+    mainmenu.css("display", "none");
+    $("#selector").css("display", "none");
   });
 
   const inspectToggle = $("#inspect");
